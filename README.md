@@ -1,1 +1,1 @@
-# Practica_2_Voz
+# Síntomas vocales en profesores
