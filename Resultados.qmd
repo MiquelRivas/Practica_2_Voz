@@ -69,7 +69,7 @@ raw_data <- raw_data %>% select(-X) %>%
 )
 
 glimpse(raw_data)
-```  
+```
 
 Observamos que hay 185 respuestas y 37 variables. Vamos a limpiar los nombres de las variables y a convertir las variables categóricas en factores, a excepción de las variables "importancia_voz", "importancia_deporte" y "dieta_saludable" que las dejamos como variables cuantitativas discretas.
 
@@ -81,7 +81,7 @@ data <- janitor::clean_names(raw_data) %>%
 
 glimpse(data)
 
-```  
+```
 
 Ahora, para calcular el índice de calidad de voz (VHI), vamos a seleccionar las variables desde la 28 a la 37 para convertirlas en cuantitativas discretas y a sumarlas para obtener el índice VIH.
 
@@ -109,12 +109,11 @@ data<-data %>% select(-c(28:37))%>%
 glimpse(data) 
 ```
 
-
 ## P1: ¿Los profesores dan menos importancia a la voz que al deporte o alimentación?
 
 **Grupo: joan_camps (Joan, Gerard y Miki)**
 
-El gráfico no está mal, pero el más adecuado sería un boxplot o un violin plot. Mejorad estos gráficos y comentad los resultados. 
+El gráfico no está mal, pero el más adecuado sería un boxplot o un violin plot. Mejorad estos gráficos y comentad los resultados.
 
 ```{r}
  data_long <- data %>%
@@ -144,46 +143,41 @@ Ejecutad un ANOVA de bloques para ver si hay diferencias significativas entre la
 
 **Grupo: rebm (Rebeca, Eulalia, Biel, Marc)**
 
-El documento de Quarto no compila, ni descargándolo del repositorio de Github. 
+El documento de Quarto no compila, ni descargándolo del repositorio de Github.
 
-Lo primero que debéis hacer es arreglar los niveles de cada factor, son 20 para cuerpo_docente y 15 para síntomas.
-Podéis hacer un diagrama de barras agrupadas entre cuerpo docente y número de síntomas.
+Lo primero que debéis hacer es arreglar los niveles de cada factor, son 20 para cuerpo_docente y 15 para síntomas. Podéis hacer un diagrama de barras agrupadas entre cuerpo docente y número de síntomas.
 
 [Ayuda](https://rpubs.com/hllinas/R_Barras_ggplot_grupo)
-
 
 ## P3: ¿Hay alguna edad con mayor incidencia de síntomas vocales?
 
 **Grupo: los_angeles (Sergio,Àngela, Jaume)**
 
-
 Para responder esta pregunta podeis dibujar un diagrama de barras agrupadas entre edad y síntomas. Edad es un factor con 4 niveles y tenéis razón en cuanto a que no hace falta diferenciar por tipo de síntomas vocales.
 
 [Ayuda](https://rpubs.com/hllinas/R_Barras_ggplot_grupo)
 
-El barplot de edad debe estar ordenado de menor a mayor a mayor edad. 
+El barplot de edad debe estar ordenado de menor a mayor a mayor edad.
 
 Luego, deberías hacer un test inferencial para ver si hay diferencias significativas entre las edades y los síntomas.
 
 [Ayuda](https://aprender-uib.github.io/MatesII/contrastos-dindepend%C3%A8ncia-i-homogene%C3%AFtat.html#test-chi2-dindepend%C3%A8ncia)
-
 
 ## P4: ¿Qué factores influyen en una mala calidad de voz? Café, tabaco, alcohol, bebidas con gas, etc
 
 **Grupo: el_cid: Carlos,Irene, Didac**
 
 Muy claro el informe y bien la idea del boxplot entre cada factor y el score. Sin embargo, el código no funciona bien para el cálculo del score. Usad los resultados que os presento aquí para hacer el boxplot.
- 
- Luego, pensad en en una prueba inferencial, si se puede aplicar
- 
- [Ayuda](https://aprender-uib.github.io/MatesII/anova.html#anova-de-blocs).
+
+Luego, pensad en en una prueba inferencial, si se puede aplicar
+
+[Ayuda](https://aprender-uib.github.io/MatesII/anova.html#anova-de-blocs).
 
 ## P5: ¿Hay alguna enfermedad que influya en la calidad de la voz? EPOC, reflujo, endocrina, cardio-vascular, etc
 
 **Grupo tulipanes_alirios: Biel, Carlos, Javi**
 
-Solo han resumido las enfermedades, falta cruzar con la calidad de la voz.
-Pensad en un boxplot entre cada enfermedad y el score, en un mismo gráfico.
+Solo han resumido las enfermedades, falta cruzar con la calidad de la voz. Pensad en un boxplot entre cada enfermedad y el score, en un mismo gráfico.
 
 Luego, hacer un ANOVA de bloques para ver si hay diferencias significativas entre las enfermedades.
 
@@ -201,20 +195,19 @@ No encuentro en mi correo vuestra entrega. En todo caso hay que cruzar el score 
 
 Hacer un boxplot entre la higiene vocal y el score. Y luego una prueba inferencial.
 
-
 ```{r}
 table(data$higiene_vocal)
 
 data <- data %>% 
   dplyr::mutate(higiene_vocal = case_when(
-    higiene_vocal == "Bec molta d'aigua" ~ "Bebe mucha agua",
-    higiene_vocal == "Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Bebe mucha agua",
-    higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina" ~ "Calienta y hace reposo",
-    higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Calienta, hace reposo y bebe mucha agua",
-    higiene_vocal == "Faig repòs vocal després de la feina" ~ "Hace reposo",
-    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Hace reposo y bebe mucha agua",
-    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Hace reposo y bebe mucha agua",
-    higiene_vocal == "No seguesc cap rutina per a la veu" ~ "No rutina",
+    higiene_vocal == "Bec molta d'aigua" ~ "Mucha agua.",
+    higiene_vocal == "Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Mucha agua, no rutina.",
+    higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina" ~ "Calienta y reposo.",
+    higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Calienta, reposo y mucha agua.",
+    higiene_vocal == "Faig repòs vocal després de la feina" ~ "Reposo.",
+    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Reposo y mucha agua.",
+    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Reposo y mucha agua.",
+    higiene_vocal == "No seguesc cap rutina per a la veu" ~ "No rutina.",
     TRUE ~ higiene_vocal  # Para mantener las categorías que no coincidan
   ))
 
@@ -237,9 +230,11 @@ ggplot(data = data, aes(x = higiene_vocal, y = VHI, fill = higiene_vocal)) +
   labs(title = "Distribución del Score VHI por Rutina de Higiene Vocal",
        x = "Higiene Vocal", y = "Score VHI") +
   theme_minimal() +
-  theme(legend.position = "none") 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7.5),legend.position = "none") 
 ```
+
 Para facilitarnos el trabajo a la hora de hacer el test de inferencia, que en este caso será de correlación, convertiremos las respuestas en valores numéricos:
+
 ```{r}
 datos <- data %>%
   mutate(higiene_vocal_num = case_when(
@@ -254,12 +249,14 @@ datos <- data %>%
 ```
 
 Ahora realizamos el test:
+
 ```{r}
 resultado_cor <- datos %>%
   summarise(cor_test = list(cor.test(VHI, higiene_vocal_num, method = "pearson", use = "complete.obs"))) %>%
   pull(cor_test)
 print(resultado_cor)
 ```
+
 Como podemos ver, al ser el resultado del test una correlación del 0.3, pese a ser relativamente moderada, se puede afirmar que las rutinas de higiene vocal tienen correlación con el VHI. Por tanto, se puede afirmar que el cuidado de la voz influye en la calidad de esta.
 
 # P8: ¿Hay alguna medicación que influya en la calidad de la voz?
@@ -272,15 +269,12 @@ Arreglar el boxplot.
 
 ANOVA para la parte inferencial.
 
-
 ## Extra: ¿Hay algún trabajo con uso profesional de la voz, además de dar clase, que haga tener mejor calidad de la voz?
 
 No asignada
 
-## Objetivo: 
+## Objetivo:
 
 **¿La formación en voz influye en la percepción de calidad de la misma?**
 
 ¿Ideas?
-
-
