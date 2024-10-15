@@ -205,24 +205,39 @@ Hacer un boxplot entre la higiene vocal y el score. Y luego una prueba inferenci
 ```{r}
 table(data$higiene_vocal)
 
+data <- data %>% 
+  dplyr::mutate(higiene_vocal = case_when(
+    higiene_vocal == "Bec molta d'aigua" ~ "Bebe mucha agua",
+    higiene_vocal == "Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Bebe mucha agua",
+    higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina" ~ "Calienta y hace reposo",
+    higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Calienta, hace reposo y bebe mucha agua",
+    higiene_vocal == "Faig repòs vocal després de la feina" ~ "Hace reposo",
+    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Hace reposo y bebe mucha agua",
+    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Hace reposo y bebe mucha agua",
+    higiene_vocal == "No seguesc cap rutina per a la veu" ~ "No rutina",
+    TRUE ~ higiene_vocal  # Para mantener las categorías que no coincidan
+  ))
+
+
+table(data$higiene_vocal)
+
 data$VHI = datos$VHI
 
 resumen <- data %>% 
   group_by(higiene_vocal) %>% 
   summarise(
-    promedio_score = mean(VHI),
-    mediana_score = median(VHI),
-    desviacion_std = sd(VHI),
+    media_VHI = mean(VHI),
+    mediana_VHI = median(VHI),
+    desviacion_VHI = sd(VHI),
     n = n()
   )
 
 ggplot(data = data, aes(x = higiene_vocal, y = VHI, fill = higiene_vocal)) +
   geom_boxplot() +
-  labs(title = "Distribución del Score VIH por Rutina de Higiene Vocal",
+  labs(title = "Distribución del Score VHI por Rutina de Higiene Vocal",
        x = "Higiene Vocal", y = "Score VHI") +
   theme_minimal() +
-  theme(legend.position = "none")
-
+  theme(legend.position = "none") 
 ```
 
 
