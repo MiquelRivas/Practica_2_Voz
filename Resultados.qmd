@@ -15,7 +15,7 @@ Rendering:
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(readr)
-library(hrbrthemes)
+#library(hrbrthemes)
 library(janitor)
 library(viridis)
 ```
@@ -200,6 +200,30 @@ No asignada
 No encuentro en mi correo vuestra entrega. En todo caso hay que cruzar el score VIH con la pregunta si el participante sigue una rutina de higiene vocal.
 
 Hacer un boxplot entre la higiene vocal y el score. Y luego una prueba inferencial.
+
+
+```{r}
+table(data$higiene_vocal)
+
+data$VHI = datos$VHI
+
+resumen <- data %>% 
+  group_by(higiene_vocal) %>% 
+  summarise(
+    promedio_score = mean(VHI),
+    mediana_score = median(VHI),
+    desviacion_std = sd(VHI),
+    n = n()
+  )
+
+ggplot(data = data, aes(x = higiene_vocal, y = VHI, fill = higiene_vocal)) +
+  geom_boxplot() +
+  labs(title = "Distribución del Score VIH por Rutina de Higiene Vocal",
+       x = "Higiene Vocal", y = "Score VHI") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
 
 
 
