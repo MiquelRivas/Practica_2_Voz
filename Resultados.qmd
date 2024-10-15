@@ -206,7 +206,7 @@ data <- data %>%
     higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Calienta, reposo y mucha agua.",
     higiene_vocal == "Faig repòs vocal després de la feina" ~ "Reposo.",
     higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Reposo y mucha agua.",
-    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Reposo y mucha agua.",
+    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Reposo y mucha agua, no rutina.",
     higiene_vocal == "No seguesc cap rutina per a la veu" ~ "No rutina.",
     TRUE ~ higiene_vocal  # Para mantener las categorías que no coincidan
   ))
@@ -235,15 +235,26 @@ ggplot(data = data, aes(x = higiene_vocal, y = VHI, fill = higiene_vocal)) +
 
 Para facilitarnos el trabajo a la hora de hacer el test de inferencia, que en este caso será de correlación, consideramos que este es el test de inferencia más adecuado ya que nos dirá a que nivel encontramos relación entre estas variables (que es lo que se quiere responder en estas preguntas). Para ello, convertiremos las respuestas (cualitativas) en valores numéricos:
 
+Lo que haremos será asignar una variable numérica a cada respuesta posible ordenada de menor a mayor según lo buena o efectiva que es la rutina que siguen (orden de prioridad). Así, para no evitar contradicciones con las respuestas lo que haremos será considerar solo 6 de estas respuestas, que son: "Mucha agua", "Calienta y reposo", "Calienta, reposo y mucha agua", "Reposo", "No rutina", "Reposo y mucha agua".
+
+Para realizarlo, nos compararemos estas respuestas con las de otra pregunta. La pregunta será: "Ha tengut problemes de veu importants i que li han dificultat la feina al llarg del
+curs 2022-2023?". 
+
+Lo haremos por frecuencias, es decir, calcularemos con que frecuencia (probabilidad) alguien que no hace rutina ha tenido problemas y mediante estas frecuencias determinaremos el orden de prioridad. 
+
+
+
+
+
 ```{r}
 datos <- data %>%
   mutate(higiene_vocal_num = case_when(
-    higiene_vocal == "Bebe mucha agua" ~ 1,
-    higiene_vocal == "Calienta y hace reposo" ~ 3,
-    higiene_vocal == "Calienta, hace reposo y bebe mucha agua" ~ 5,
-    higiene_vocal == "Hace reposo" ~ 2,
+    higiene_vocal == "Mucha agua" ~ 1,
+    higiene_vocal == "Calienta y reposo" ~ 3,
+    higiene_vocal == "Calienta, reposo y mucha agua" ~ 5,
+    higiene_vocal == "Reposo" ~ 2,
     higiene_vocal == "No rutina" ~ 0,
-    higiene_vocal == "Hace reposo y bebe mucha agua" ~ 4,
+    higiene_vocal == "Reposo y mucha agua" ~ 4,
     TRUE ~ NA_real_  # Para manejar posibles valores desconocidos
   ))
 ```
@@ -257,9 +268,11 @@ resultado_cor <- datos %>%
 print(resultado_cor)
 ```
 
-Como podemos ver, al ser el resultado del test una correlación del 0.31295. Pese a ser relativamente moderada, se puede afirmar que las rutinas de higiene vocal tienen correlación con el VHI.
+Como podemos ver, al ser el resultado del test una correlación del 0.31295. Pese a ser relativamente moderada, se puede afirmar que las rutinas de higiene vocal tienen correlación con el VHI. Así, podemos responder a la primera parte de la pregunta planteada.
 
+**Respuesta a la pregunta 7:**
 
+Dado que la correlación es notabe entre el cuidado de la voz y el mejoramiento de la misma, respondemos de forma afirmativa a esta pregunta.  
 
 # P8: ¿Hay alguna medicación que influya en la calidad de la voz?
 
