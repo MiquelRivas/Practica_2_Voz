@@ -233,7 +233,7 @@ ggplot(data = data, aes(x = higiene_vocal, y = VHI, fill = higiene_vocal)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7.5),legend.position = "none") 
 ```
 
-Para facilitarnos el trabajo a la hora de hacer el test de inferencia, que en este caso será de correlación, convertiremos las respuestas en valores numéricos:
+Para facilitarnos el trabajo a la hora de hacer el test de inferencia, que en este caso será de correlación, consideramos que este es el test de inferencia más adecuado ya que nos dirá a que nivel encontramos relación entre estas variables (que es lo que se quiere responder en estas preguntas). Para ello, convertiremos las respuestas (cualitativas) en valores numéricos:
 
 ```{r}
 datos <- data %>%
@@ -257,7 +257,9 @@ resultado_cor <- datos %>%
 print(resultado_cor)
 ```
 
-Como podemos ver, al ser el resultado del test una correlación del 0.3, pese a ser relativamente moderada, se puede afirmar que las rutinas de higiene vocal tienen correlación con el VHI. Por tanto, se puede afirmar que el cuidado de la voz influye en la calidad de esta.
+Como podemos ver, al ser el resultado del test una correlación del 0.31295. Pese a ser relativamente moderada, se puede afirmar que las rutinas de higiene vocal tienen correlación con el VHI.
+
+
 
 # P8: ¿Hay alguna medicación que influya en la calidad de la voz?
 
