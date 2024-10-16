@@ -11,6 +11,9 @@ Rendering:
     embed-resources: true
 ---
 
+**Grupo escuderia_ferrrari: Álvaro Velasco Sobrino, Carlos Bayes Liébana, Miquel Rivas Vanrell**
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
@@ -118,7 +121,6 @@ No encuentro en mi correo vuestra entrega. En todo caso hay que cruzar el score 
 Hacer un boxplot entre la higiene vocal y el score. Y luego una prueba inferencial.
 
 ```{r}
-table(data$higiene_vocal)
 
 data <- data %>% 
   dplyr::mutate(higiene_vocal = case_when(
@@ -135,7 +137,6 @@ data <- data %>%
   ))
 
 
-table(data$higiene_vocal)
 
 data$VHI = datos$VHI
 
@@ -223,7 +224,7 @@ resultado_cor <- datos %>%
   pull(cor_test)
 print(resultado_cor)
 ```
-Esto significa que esta ordenación no tiene sentido.
+Esto significa que se afectan de manera opuesta y por tanto, siguiendo la lógica, esta ordenación no tiene sentido.
 
 **ORDENACIÓN PROPIA**
 
