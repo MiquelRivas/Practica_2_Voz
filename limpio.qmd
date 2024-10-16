@@ -169,15 +169,18 @@ data_seleccionado <- data %>% select(problema_curso22_23,higiene_vocal)
 
 
 frecuencias <- data_seleccionado %>%
-  count(problema_curso22_23, higiene_vocal) %>% # Contar las combinaciones
+  count(problema_curso22_23, higiene_vocal) # Contar las combinaciones
   
   
   # Mostrar la tabla de frecuencias relativas
-  print(frecuencias)
+print(frecuencias)
 ```
 
 
 Ahora, debemos calcular la probabilidad de no tener enfermedad con cada una de las respuestas. 
+
+
+
 ```{r}
 probabilidades <- frecuencias %>%
   group_by(higiene_vocal) %>%                       
@@ -233,8 +236,7 @@ datos <- data %>%
     higiene_vocal == "Calienta, hace reposo y bebe mucha agua" ~ 5,
     higiene_vocal == "Hace reposo" ~ 2,
     higiene_vocal == "No rutina" ~ 0,
-    higiene_vocal == "Hace reposo y bebe mucha agua" ~ 4,
-    TRUE ~ NA_real_  # Para manejar posibles valores desconocidos
+    higiene_vocal == "Hace reposo y bebe mucha agua" ~ 4
   ))
 ```
 
