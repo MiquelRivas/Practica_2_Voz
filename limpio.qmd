@@ -122,15 +122,15 @@ table(data$higiene_vocal)
 
 data <- data %>% 
   dplyr::mutate(higiene_vocal = case_when(
-    higiene_vocal == "Bec molta d'aigua" ~ "Mucha agua.",
-    higiene_vocal == "Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Mucha agua, no rutina.",
-    higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina" ~ "Calienta y reposo.",
-    higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Calienta, reposo y mucha agua.",
-    higiene_vocal == "Escalf la veu abans de començar la feina" ~ "Caliento.",
-    higiene_vocal == "Faig repòs vocal després de la feina" ~ "Reposo.",
-    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Reposo y mucha agua.",
-    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Reposo y mucha agua.",
-    higiene_vocal == "No seguesc cap rutina per a la veu" ~ "No rutina.",
+    higiene_vocal == "Bec molta d'aigua" ~ "Mucha agua",
+    higiene_vocal == "Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Mucha agua",
+    higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina" ~ "Calienta y reposo",
+    higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Calienta, reposo y mucha agua",
+    higiene_vocal == "Escalf la veu abans de començar la feina" ~ "Caliento",
+    higiene_vocal == "Faig repòs vocal després de la feina" ~ "Reposo",
+    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Reposo y mucha agua",
+    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Reposo y mucha agua",
+    higiene_vocal == "No seguesc cap rutina per a la veu" ~ "No rutina",
     TRUE ~ higiene_vocal  # Para mantener las categorías que no coincidan
   ))
 
@@ -206,12 +206,12 @@ Es por ello, que haremos dos pruebas de inferencia, una con los resultados obten
 ```{r}
 datos <- data %>%
   mutate(higiene_vocal_num = case_when(
-    higiene_vocal == "Mucha agua." ~ 2,
-    higiene_vocal == "Calienta y reposo." ~ 0,
-    higiene_vocal == "Calienta, reposo y mucha agua." ~ 1,
-    higiene_vocal == "Reposo." ~ 4,
-    higiene_vocal == "No rutina." ~ 5,
-    higiene_vocal == "Reposo y mucha agua." ~ 3
+    higiene_vocal == "Mucha agua" ~ 2,
+    higiene_vocal == "Calienta y reposo" ~ 0,
+    higiene_vocal == "Calienta, reposo y mucha agua" ~ 1,
+    higiene_vocal == "Reposo" ~ 4,
+    higiene_vocal == "No rutina" ~ 5,
+    higiene_vocal == "Reposo y mucha agua" ~ 3
   ))
 ```
 
@@ -228,14 +228,15 @@ Esto significa que esta ordenación no tiene sentido.
 **ORDENACIÓN PROPIA**
 
 ```{r}
+
 datos <- data %>%
   mutate(higiene_vocal_num = case_when(
-    higiene_vocal == "Bebe mucha agua" ~ 1,
-    higiene_vocal == "Calienta y hace reposo" ~ 3,
-    higiene_vocal == "Calienta, hace reposo y bebe mucha agua" ~ 5,
-    higiene_vocal == "Hace reposo" ~ 2,
+    higiene_vocal == "Mucha agua" ~ 1,
+    higiene_vocal == "Calienta y reposo" ~ 3,
+    higiene_vocal == "Calienta, reposo y mucha agua" ~ 5,
+    higiene_vocal == "Reposo" ~ 2,
     higiene_vocal == "No rutina" ~ 0,
-    higiene_vocal == "Hace reposo y bebe mucha agua" ~ 4
+    higiene_vocal == "Reposo y mucha agua" ~ 4
   ))
 ```
 
@@ -248,7 +249,7 @@ resultado_cor <- datos %>%
 print(resultado_cor)
 ```
 
-Como podemos ver, al ser el resultado del test una correlación del 0.31295. Pese a ser relativamente moderada, se puede afirmar que las rutinas de higiene vocal tienen correlación con el VHI.
+Como podemos ver, al ser el resultado del test una correlación del 0.301295. Pese a ser relativamente moderada, se puede afirmar que las rutinas de higiene vocal tienen correlación con el VHI.
 
 **Respuesta a la pregunta 7:**
 
