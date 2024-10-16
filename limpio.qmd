@@ -126,6 +126,7 @@ data <- data %>%
     higiene_vocal == "Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Mucha agua, no rutina.",
     higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina" ~ "Calienta y reposo.",
     higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Calienta, reposo y mucha agua.",
+    higiene_vocal == "Escalf la veu abans de començar la feina" ~ "Caliento.",
     higiene_vocal == "Faig repòs vocal després de la feina" ~ "Reposo.",
     higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Reposo y mucha agua.",
     higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Reposo y mucha agua.",
@@ -159,8 +160,7 @@ Para facilitarnos el trabajo a la hora de hacer el test de inferencia, que en es
   
   Lo que haremos será asignar una variable numérica a cada respuesta posible ordenada de menor a mayor según lo buena o efectiva que es la rutina que siguen (orden de prioridad). Así, para no evitar contradicciones con las respuestas lo que haremos será considerar solo 6 de estas respuestas, que son: "Mucha agua", "Calienta y reposo", "Calienta, reposo y mucha agua", "Reposo", "No rutina", "Reposo y mucha agua".
 
-Para realizarlo, nos compararemos estas respuestas con las de otra pregunta. La pregunta será: "Ha tengut problemes de veu importants i que li han dificultat la feina al llarg del
-curs 2022-2023?". 
+Para realizarlo, nos compararemos estas respuestas con las de otra pregunta. La pregunta será: "Ha tengut problemes de veu importants i que li han dificultat la feina al llarg del curs 2022-2023?". 
 
 Lo haremos por frecuencias, es decir, calcularemos con que frecuencias alguien que no hace rutina ha tenido problemas y mediante estas frecuencias determinaremos el orden de prioridad. 
 
@@ -206,13 +206,12 @@ Es por ello, que haremos dos pruebas de inferencia, una con los resultados obten
 ```{r}
 datos <- data %>%
   mutate(higiene_vocal_num = case_when(
-    higiene_vocal == "Mucha agua" ~ 2,
-    higiene_vocal == "Calienta y reposo" ~ 0,
-    higiene_vocal == "Calienta, reposo y mucha agua" ~ 1,
-    higiene_vocal == "Reposo" ~ 4,
-    higiene_vocal == "No rutina" ~ 5,
-    higiene_vocal == "Reposo y mucha agua" ~ 3,
-    TRUE ~ NA_real_  # Para manejar posibles valores desconocidos
+    higiene_vocal == "Mucha agua." ~ 2,
+    higiene_vocal == "Calienta y reposo." ~ 0,
+    higiene_vocal == "Calienta, reposo y mucha agua." ~ 1,
+    higiene_vocal == "Reposo." ~ 4,
+    higiene_vocal == "No rutina." ~ 5,
+    higiene_vocal == "Reposo y mucha agua." ~ 3
   ))
 ```
 
