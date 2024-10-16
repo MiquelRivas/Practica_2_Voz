@@ -1,8 +1,113 @@
 ---
-title: "En_limpio"
-format: html
-editor: visual
+title: "Síntomas vocales en profesores"
+subtitle: "20582- Análisis de Datos para el GMAT"
+date: today
+format:
+  html:
+    theme: lumen
+    toc: true
+    toc-depth: 3
+Rendering:
+    embed-resources: true
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(readr)
+#library(hrbrthemes)
+library(janitor)
+library(viridis)
+```
+
+## Lectura y limpieza de los datos
+
+Leemos los datos del fichero "Salut_Vocal_anonimizada.csv" y cambiamos los nombres de las variables.
+
+```{r}
+raw_data<-read.csv("Salut_Vocal_anonimizada.csv",
+                   header=TRUE, sep=";")
+
+raw_data <- raw_data %>% select(-X) %>% 
+   rename(
+    Importancia_voz = "De.l.1.al.10.quina.importancia.té.la.veu.per.a.vostè.",
+    Sexo = "Sexe",
+    Lugar_trabajo="On.fa.feina.",
+    Cuerpo_docente="Cos.docent",
+    Edad="Quina.edat.té.",
+    Actividas_fisica="Practica.esport.o.fa.alguna.activitat.física.",
+    Importancia_deporte="De.l.1.al.10.quina.importancia.té.la.pràctica.de.l.esport.o.activitat.física.per.a.vostè.",
+    Calidad_sueño="Té.una.bona.qualitat.del.son.",
+    Cafe="Consumeix.cafè.",
+    Tabaco="Consumeix.tabac.",
+    Alcohol="Consumeix.alcohol.",
+    Bebida_gas="Consumeix.begudes.amb.gas.",
+    Dieta_saludable="De..l.1.al.10.assenyali.si.segueix.una.dieta.equilibrada.i.saludable.",
+    Diagnostico="Ha.estat.diagnosticat.per.un.metge.o.metgessa.d.alguna.de.les.malalties.següents.",
+    Patologia="Si.ha.marcat.alguna.de.les.opcions.anterior..especifiqui.la.patologia.",
+    Diagnostico_especialista="Ha.estat.diagnosticat.per.un.especialista.mèdic..otorinolaringòleg..foniatra..d.alguna.lesió.a.les.cordes.vocals.",
+    Sintomas="Aquest.mes.ha.tengut.algún.símptoma.vocal.dels.següents..Es.pot.marcar.més.d.una.opció",
+    Operacion="L.han.operat.de.les.cordes.vocals.",
+    Tiempo_alteracion="Si.té.alguna.alteració.de.la.veu..recorda.quin.temps.fa.que.va.començar.",
+    Baja_voz="En.alguna.ocasió..ha.estat.de.baixa.laboral.per.problemes.de.veu.",
+    Baja_larga="Si.la.resposta.a.la.pregunta.anterior.és.afirmativa..indiqui.la.periodicitat..cada.any..trimestre.....i.la.durada.de.la.baixa.més.llarga.i.la.malaltia",
+    Problema_curso22_23="Ha.tengut.problemes.de.veu.importants.i.que.li.han.dificultat.la.feina.al.llarg.del.curs.2022.2023.",
+    Formacion_voz="Té.formació.sobre.salut.vocal.",
+    Medicacion="Pren.alguna.o.algunes.de.les.medicacions.següents..Es.pot.marcar.més.d.una.opció",
+    Higiene_vocal="Segueix.una.rutina.d.higiene.vocal.",
+    Actividades="Fa.alguna.de.les.activitats.següents..Es.pot.marcar.més.d.una.opció",
+    No_me_ecuchan="La.gent.em.sent.amb.dificultat.a.causa.de.la.meva.veu",
+    No_me_escuchan_ruido="La.gent.no.m.entén.en.llocs.sorollosos",
+    Alteracion_vida_social="Els.meus.problemes.amb.la.veu.alteren.la.meva.vida.personal.i.social",
+    Desplazado_conversacion="Em.sent.desplaçat.de.les.converses.per.la.meva.veu",
+    Rendimiento_laboral="El.meu.problema.amb.la.veu.afecta.el.rendiment.laboral",
+    Tensar_producir_voz="Not.que.necessit.tensar.la.gola..gargamella..per.produir.la.veu",
+    Calidad_imprevisible="La.qualitat.de.la.meva.veu.és.imprevisible",
+    Me_molesta="La.meva.veu.em.molesta",
+    Minusvalia="La.meva.veu.em.fa.sentir.certa.minusvalidesa",
+    Gente_pregunta="La.gent.em.pregunta..què.et.passa.amb.la.veu."
+)
+
+glimpse(raw_data)
+```
+
+Observamos que hay 185 respuestas y 37 variables. Vamos a limpiar los nombres de las variables y a convertir las variables categóricas en factores, a excepción de las variables "importancia_voz", "importancia_deporte" y "dieta_saludable" que las dejamos como variables cuantitativas discretas.
+
+```{r}
+data <- janitor::clean_names(raw_data) %>% 
+        mutate(across(-c(importancia_voz,
+                         importancia_deporte,
+                         dieta_saludable), as.factor))
+
+glimpse(data)
+
+```
+
+Ahora, para calcular el índice de calidad de voz (VHI), vamos a seleccionar las variables desde la 28 a la 37 para convertirlas en cuantitativas discretas y a sumarlas para obtener el índice VIH.
+
+```{r}
+datos<-data %>% select(28:37) %>% 
+  mutate(across(everything(), ~case_when(
+     . == "Mai" ~ 0,
+     . == "Gairebé mai" ~ 1,
+     . == "A vegades" ~ 2,
+     . == "Gairebé sempre" ~ 3,
+     . == "Sempre" ~ 4
+   ))
+   )
+
+datos<-datos %>% mutate(VHI=rowSums(datos))
+
+glimpse(datos) 
+```
+
+Por último, vamos a añadir la variable VHI al dataframe original y a eliminar las variables de la 28 a la 37.
+
+```{r}
+data<-data %>% select(-c(28:37))%>% 
+   bind_cols(VHI=datos$score)
+glimpse(data) 
+```
 
 ## P7: ¿El cuidado de voz mejora la calidad de la misma? ¿Cuál es la mejor medida?
 
@@ -60,7 +165,7 @@ curs 2022-2023?".
 Lo haremos por frecuencias, es decir, calcularemos con que frecuencias alguien que no hace rutina ha tenido problemas y mediante estas frecuencias determinaremos el orden de prioridad. 
 
 ```{r}
-data_seleccionado <- data[, c("problema_curso22_23", "higiene_vocal")]
+data_seleccionado <- data %>% select(problema_curso22_23,higiene_vocal)
 
 
 frecuencias <- data_seleccionado %>%
@@ -69,8 +174,8 @@ frecuencias <- data_seleccionado %>%
   
   # Mostrar la tabla de frecuencias relativas
   print(frecuencias)
-
 ```
+
 
 Ahora, debemos calcular la probabilidad de no tener enfermedad con cada una de las respuestas. 
 ```{r}
@@ -146,4 +251,4 @@ Como podemos ver, al ser el resultado del test una correlación del 0.31295. Pes
 
 **Respuesta a la pregunta 7:**
 
-Dado que la correlación es notabe entre el cuidado de la voz y el mejoramiento de la misma, respondemos de forma afirmativa a esta pregunta. Para la segunda parte de la pregunta, tenemos que el método más efectivo es la unión de "Calienta, hace reposo y bebe mucha agua".
+Dado que la correlación es notable entre el cuidado de la voz y el mejoramiento de la misma, respondemos de forma afirmativa a esta pregunta. Para la segunda parte de la pregunta, tenemos que el método más efectivo es la unión de "Calienta, hace reposo y bebe mucha agua".
