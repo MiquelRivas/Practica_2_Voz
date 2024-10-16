@@ -196,9 +196,9 @@ No encuentro en mi correo vuestra entrega. En todo caso hay que cruzar el score 
 Hacer un boxplot entre la higiene vocal y el score. Y luego una prueba inferencial.
 
 ```{r}
-table(data$higiene_vocal)
+table(datos$higiene_vocal)
 
-data <- data %>% 
+data <- datos %>% 
   dplyr::mutate(higiene_vocal = case_when(
     higiene_vocal == "Bec molta d'aigua" ~ "Mucha agua.",
     higiene_vocal == "Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Mucha agua, no rutina.",
@@ -240,9 +240,22 @@ Lo que haremos será asignar una variable numérica a cada respuesta posible ord
 Para realizarlo, nos compararemos estas respuestas con las de otra pregunta. La pregunta será: "Ha tengut problemes de veu importants i que li han dificultat la feina al llarg del
 curs 2022-2023?". 
 
-Lo haremos por frecuencias, es decir, calcularemos con que frecuencia (probabilidad) alguien que no hace rutina ha tenido problemas y mediante estas frecuencias determinaremos el orden de prioridad. 
+Lo haremos por frecuencias, es decir, calcularemos con que frecuencias alguien que no hace rutina ha tenido problemas y mediante estas frecuencias determinaremos el orden de prioridad. 
+
+```{r}
+data_seleccionado <- datos[, c("problema_curso22_23", "higiene_vocal")]
 
 
+frecuencias <- data_seleccionado %>%
+  count(problema_curso22_23, higiene_vocal) %>% # Contar las combinaciones
+  
+
+# Mostrar la tabla de frecuencias relativas
+print(frecuencias)
+
+```
+
+Ahora, debemos calcular la probabilidad de no tener enfermedad con cada una de las respuestas. 
 
 
 
