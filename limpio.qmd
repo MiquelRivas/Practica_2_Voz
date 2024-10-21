@@ -21,6 +21,7 @@ library(readr)
 #library(hrbrthemes)
 library(janitor)
 library(viridis)
+library(gt)
 ```
 
 ## Lectura y limpieza de los datos
@@ -71,7 +72,7 @@ raw_data <- raw_data %>% select(-X) %>%
     Gente_pregunta="La.gent.em.pregunta..què.et.passa.amb.la.veu."
 )
 
-glimpse(raw_data)
+#glimpse(raw_data)
 ```
 
 Observamos que hay 185 respuestas y 37 variables. Vamos a limpiar los nombres de las variables y a convertir las variables categóricas en factores, a excepción de las variables "importancia_voz", "importancia_deporte" y "dieta_saludable" que las dejamos como variables cuantitativas discretas.
@@ -82,7 +83,7 @@ data <- janitor::clean_names(raw_data) %>%
                          importancia_deporte,
                          dieta_saludable), as.factor))
 
-glimpse(data)
+#glimpse(data)
 
 ```
 
@@ -101,15 +102,15 @@ datos<-data %>% select(28:37) %>%
 
 datos<-datos %>% mutate(VHI=rowSums(datos))
 
-glimpse(datos) 
+#glimpse(datos) 
 ```
 
 Por último, vamos a añadir la variable VHI al dataframe original y a eliminar las variables de la 28 a la 37.
 
 ```{r}
 data<-data %>% select(-c(28:37))%>% 
-   bind_cols(VHI=datos$score)
-glimpse(data) 
+   bind_cols(VHI=datos$VHI)
+#glimpse(data) 
 ```
 
 ## P7: ¿El cuidado de voz mejora la calidad de la misma? ¿Cuál es la mejor medida?
@@ -137,25 +138,46 @@ data <- data %>%
   ))
 
 
-
-data$VHI = datos$VHI
-
 resumen <- data %>% 
   group_by(higiene_vocal) %>% 
   summarise(
     media_VHI = mean(VHI),
     mediana_VHI = median(VHI),
     desviacion_VHI = sd(VHI),
-    n = n()
+    q1 = quantile(VHI, 0.25),
+    q3 = quantile(VHI, 0.75),
+    IQR = q3-q1,
+    observaciones = n()
   )
 
+print(resumen)
+
+# Crear el boxplot con los conteos
 ggplot(data = data, aes(x = higiene_vocal, y = VHI, fill = higiene_vocal)) +
   geom_boxplot() +
   labs(title = "Distribución del Score VHI por Rutina de Higiene Vocal",
        x = "Higiene Vocal", y = "Score VHI") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7.5),legend.position = "none") 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7.5),
+        legend.position = "none") +
+  geom_text(data = resumen, aes(x=higiene_vocal, y=Inf, label = paste("n= ", observaciones)),position=position_dodge(0.9) , vjust = 1.5, size = 3)
 ```
+
+```{r}
+data_para_OR = data %>% filter(higiene_vocal %in% c("Mucha agua", "No rutina")) 
+
+tabla = table(data_para_OR$higiene_vocal, data_para_OR$problema_curso22_23) %>%
+  as.data.frame.matrix()
+
+tabla <- tabla %>%
+  gt(rownames_to_stub = TRUE) %>%
+  tab_header(
+    title = "Tabla de Contingencia: Consumo de Agua y Problemas de Voz",
+    subtitle = "Frecuencia de personas que beben agua y tienen problemas de voz"
+  )
+tabla
+```
+
 
 Para facilitarnos el trabajo a la hora de hacer el test de inferencia, que en este caso será de correlación, consideramos que este es el test de inferencia más adecuado ya que nos dirá a que nivel encontramos relación entre estas variables (que es lo que se quiere responder en estas preguntas). Para ello, convertiremos las respuestas (cualitativas) en valores numéricos:
   
