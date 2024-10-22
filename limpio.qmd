@@ -13,7 +13,6 @@ Rendering:
 
 **Grupo escuderia_ferrrari: Álvaro Velasco Sobrino, Carlos Bayes Liébana, Miquel Rivas Vanrell**
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
@@ -115,10 +114,9 @@ data<-data %>% select(-c(28:37))%>%
 
 ## P7: ¿El cuidado de voz mejora la calidad de la misma? ¿Cuál es la mejor medida?
 
-**Grupo escuderia_ferrrari: Álvaro Velasco Sobrino, Carlos Bayes Liébana, Miquel Rivas Vanrell**
-Hacer un boxplot entre la higiene vocal y el score. Y luego una prueba inferencial.
+**Grupo escuderia_ferrrari: Álvaro Velasco Sobrino, Carlos Bayes Liébana, Miquel Rivas Vanrell** Hacer un boxplot entre la higiene vocal y el score. Y luego una prueba inferencial.
 
-
+Analizamos la pregunta: "Segueix una rutina d'higiene vocal?" la cual tiene cuatro posibles respuestas de multiselección. Debemos hacer un apunte ya que esto puede suponer un inconveniente dando lugar a contradicciones. Por ejemplo, puede haber alguien que considere que calentar la voz antes de trabajar no es una rutina y que por tanto seleccione las opciones de "Escalf la veu abans de començar la feina" y "No seguesc cap rutina per a la veu". Es por ello y para evitar contradicciones que hemos encontrado, reordenamos las respuestas en los grupos que se muestran en el gráfico posterior.
 
 ```{r, echo = FALSE}
 
@@ -177,14 +175,13 @@ tabla <- tabla %>%
 tabla
 ```
 
-
 Para facilitarnos el trabajo a la hora de hacer el test de inferencia, que en este caso será de correlación, consideramos que este es el test de inferencia más adecuado ya que nos dirá a que nivel encontramos relación entre estas variables (que es lo que se quiere responder en estas preguntas). Para ello, convertiremos las respuestas (cualitativas) en valores numéricos:
-  
-  Lo que haremos será asignar una variable numérica a cada respuesta posible ordenada de menor a mayor según lo buena o efectiva que es la rutina que siguen (orden de prioridad). Así, para no evitar contradicciones con las respuestas lo que haremos será considerar solo 6 de estas respuestas, que son: "Mucha agua", "Calienta y reposo", "Calienta, reposo y mucha agua", "Reposo", "No rutina", "Reposo y mucha agua".
 
-Para realizarlo, nos compararemos estas respuestas con las de otra pregunta. La pregunta será: "Ha tengut problemes de veu importants i que li han dificultat la feina al llarg del curs 2022-2023?". 
+Lo que haremos será asignar una variable numérica a cada respuesta posible ordenada de menor a mayor según lo buena o efectiva que es la rutina que siguen (orden de prioridad). Así, para no evitar contradicciones con las respuestas lo que haremos será considerar solo 6 de estas respuestas, que son: "Mucha agua", "Calienta y reposo", "Calienta, reposo y mucha agua", "Reposo", "No rutina", "Reposo y mucha agua".
 
-Lo haremos por frecuencias, es decir, calcularemos con que frecuencias alguien que no hace rutina ha tenido problemas y mediante estas frecuencias determinaremos el orden de prioridad. 
+Para realizarlo, nos compararemos estas respuestas con las de otra pregunta. La pregunta será: "Ha tengut problemes de veu importants i que li han dificultat la feina al llarg del curs 2022-2023?".
+
+Lo haremos por frecuencias, es decir, calcularemos con que frecuencias alguien que no hace rutina ha tenido problemas y mediante estas frecuencias determinaremos el orden de prioridad.
 
 ```{r, echo = FALSE}
 data_seleccionado <- data %>% select(problema_curso22_23,higiene_vocal)
@@ -198,10 +195,7 @@ frecuencias <- data_seleccionado %>%
 print(frecuencias)
 ```
 
-
-Ahora, debemos calcular la probabilidad de no tener enfermedad con cada una de las respuestas. 
-
-
+Ahora, debemos calcular la probabilidad de no tener enfermedad con cada una de las respuestas.
 
 ```{r, echo = FALSE}
 probabilidades <- frecuencias %>%
@@ -213,18 +207,12 @@ probabilidades <- frecuencias %>%
 print(probabilidades)
 ```
 
-Por tanto, lo mejor es lo que en problema_curso22_23 tenga mayor probabilidad.
-1-No rutina
-2-Hace reposo
-3-Hace reposo y bebe mucha agua
-4-Bebe mucha agua
-5-Calienta, hace reposo y bebe mucha agua
-6-Escalf la veu abans de començar la feina
+Por tanto, lo mejor es lo que en problema_curso22_23 tenga mayor probabilidad. 1-No rutina 2-Hace reposo 3-Hace reposo y bebe mucha agua 4-Bebe mucha agua 5-Calienta, hace reposo y bebe mucha agua 6-Escalf la veu abans de començar la feina
 
-Notemos que este podium no tiene sentido lógico ya que por intuición se espera que tener una rutina sea lo mejor para la voz pero no es así. Esto se puede deber a la falta de respuestas (ya que solo hay dos observaciones de los tratamientos aparentemente mejores). 
-Es por ello, que haremos dos pruebas de inferencia, una con los resultados obtenidos en la clasificación y el otro con nuestra clasificación.
+Notemos que este podium no tiene sentido lógico ya que por intuición se espera que tener una rutina sea lo mejor para la voz pero no es así. Esto se puede deber a la falta de respuestas (ya que solo hay dos observaciones de los tratamientos aparentemente mejores). Es por ello, que haremos dos pruebas de inferencia, una con los resultados obtenidos en la clasificación y el otro con nuestra clasificación.
 
 **ORDENACIÓN OBTENIDOS**
+
 ```{r, echo = FALSE}
 datos <- data %>%
   mutate(higiene_vocal_num = case_when(
@@ -238,13 +226,14 @@ datos <- data %>%
 ```
 
 Ahora realizamos el test:
-  
+
 ```{r, echo = FALSE}
 resultado_cor <- datos %>%
   summarise(cor_test = list(cor.test(VHI, higiene_vocal_num, method = "pearson", use = "complete.obs"))) %>%
   pull(cor_test)
 print(resultado_cor)
 ```
+
 Esto significa que se afectan de manera opuesta y por tanto, siguiendo la lógica, esta ordenación no tiene sentido.
 
 **ORDENACIÓN PROPIA**
