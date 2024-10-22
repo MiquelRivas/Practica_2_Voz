@@ -157,7 +157,7 @@ ggplot(data = data, aes(x = higiene_vocal, y = VHI, fill = higiene_vocal)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7.5),
         legend.position = "none") +
-  geom_text(data = resumen, aes(x=higiene_vocal, y=Inf, label = paste("n= ", observaciones)),position=position_dodge(0.9) , vjust = 1.5, size = 3)
+  geom_text(data = resumen, aes(x=higiene_vocal, y=Inf, label = paste("n = ", observaciones)),position=position_dodge(0.9) , vjust = 1.5, size = 3)
 ```
 Como podemos observar algo no va bien, ya que según las directrices de los doctores, cuanto más baja sea la puntuación, significa mejor rutina. Por este motivo, la mejor rutina seería no seguir ninguna rutina, lo cual es sorprendente. 
 Ahora, hay que remarcar que tenemos pocos datos como para que sea concluyente, ya que solo hay dos personas que calientan y hacen reposo, dos que calientas, hacen reposo y beben mucha agua etc. Así, 
