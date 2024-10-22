@@ -133,6 +133,18 @@ data <- data %>%
     TRUE ~ higiene_vocal  # Para mantener las categorías que no coincidan
   ))
 
+resumen <- data %>% 
+  group_by(higiene_vocal) %>% 
+  summarise(
+    media_VHI = mean(VHI),
+    mediana_VHI = median(VHI),
+    desviacion_VHI = sd(VHI),
+    q1 = quantile(VHI, 0.25),
+    q3 = quantile(VHI, 0.75),
+    IQR = q3-q1,
+    observaciones = n()
+  )
+print(resumen)
 
 # Crear el boxplot con los conteos
 ggplot(data = data, aes(x = higiene_vocal, y = VHI, fill = higiene_vocal)) +
