@@ -144,12 +144,36 @@ ggplot(data = data, aes(x = higiene_vocal, y = VHI, fill = higiene_vocal)) +
         legend.position = "none") +
   geom_text(data = resumen, aes(x=higiene_vocal, y=Inf, label = paste("n = ", observaciones)),position=position_dodge(0.9) , vjust = 1.5, size = 3)
 ```
-```
-
-
 
 Como podemos observar algo no va bien, ya que según las directrices de los doctores, cuanto más baja sea la puntuación, significa mejor rutina. Por este motivo, la mejor rutina seería no seguir ninguna rutina, lo cual es sorprendente. 
-Ahora, hay que remarcar que tenemos pocos datos como para que sea concluyente, ya que solo hay dos personas que calientan y hacen reposo, dos que calientas, hacen reposo y beben mucha agua etc. Así, 
+Ahora, hay que remarcar que tenemos pocos datos como para que sea concluyente, ya que solo hay dos personas que calientan y hacen reposo, dos que calientas, hacen reposo y beben mucha agua etc. Así, podemos intentar agrupar estas categorías con menos integrantes en otras. De este modo se obtiene:
+```{r}
+data <- data %>% 
+  dplyr::mutate(higiene_vocal = case_when(
+    higiene_vocal == "Bec molta d'aigua" ~ "Mucha agua",
+    higiene_vocal == "Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Mucha agua",
+    higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina" ~ "Calienta y reposo",
+    higiene_vocal == "Escalf la veu abans de començar la feina, Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Calienta, reposo y mucha agua",
+    higiene_vocal == "Escalf la veu abans de començar la feina" ~ "Caliento",
+    higiene_vocal == "Faig repòs vocal després de la feina" ~ "Reposo",
+    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua" ~ "Reposo y mucha agua",
+    higiene_vocal == "Faig repòs vocal després de la feina, Bec molta d'aigua, No seguesc cap rutina per a la veu" ~ "Reposo y mucha agua",
+    higiene_vocal == "No seguesc cap rutina per a la veu" ~ "No rutina",
+    TRUE ~ higiene_vocal  # Para mantener las categorías que no coincidan
+  ))
+
+
+# Crear el boxplot con los conteos
+ggplot(data = data, aes(x = higiene_vocal, y = VHI, fill = higiene_vocal)) +
+  geom_boxplot() +
+  labs(title = "Distribución del Score VHI por Rutina de Higiene Vocal",
+       x = "Higiene Vocal", y = "Score VHI") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7.5),
+        legend.position = "none") +
+  geom_text(data = resumen, aes(x=higiene_vocal, y=Inf, label = paste("n = ", observaciones)),position=position_dodge(0.9) , vjust = 1.5, size = 3)
+```
+
 
 
 
