@@ -116,10 +116,9 @@ data<-data %>% select(-c(28:37))%>%
 ## P7: ¿El cuidado de voz mejora la calidad de la misma? ¿Cuál es la mejor medida?
 
 **Grupo escuderia_ferrrari: Álvaro Velasco Sobrino, Carlos Bayes Liébana, Miquel Rivas Vanrell**
-
-No encuentro en mi correo vuestra entrega. En todo caso hay que cruzar el score VIH con la pregunta si el participante sigue una rutina de higiene vocal.
-
 Hacer un boxplot entre la higiene vocal y el score. Y luego una prueba inferencial.
+
+
 
 ```{r, echo = FALSE}
 
