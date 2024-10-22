@@ -27,7 +27,7 @@ library(viridis)
 
 Leemos los datos del fichero "Salut_Vocal_anonimizada.csv" y cambiamos los nombres de las variables.
 
-```{r}
+```{r, echo = FALSE}
 raw_data<-read.csv("Salut_Vocal_anonimizada.csv",
                    header=TRUE, sep=";")
 
@@ -76,7 +76,7 @@ glimpse(raw_data)
 
 Observamos que hay 185 respuestas y 37 variables. Vamos a limpiar los nombres de las variables y a convertir las variables categóricas en factores, a excepción de las variables "importancia_voz", "importancia_deporte" y "dieta_saludable" que las dejamos como variables cuantitativas discretas.
 
-```{r}
+```{r, echo = FALSE}
 data <- janitor::clean_names(raw_data) %>% 
         mutate(across(-c(importancia_voz,
                          importancia_deporte,
@@ -88,7 +88,7 @@ glimpse(data)
 
 Ahora, para calcular el índice de calidad de voz (VHI), vamos a seleccionar las variables desde la 28 a la 37 para convertirlas en cuantitativas discretas y a sumarlas para obtener el índice VIH.
 
-```{r}
+```{r, echo = FALSE}
 datos<-data %>% select(28:37) %>% 
   mutate(across(everything(), ~case_when(
      . == "Mai" ~ 0,
@@ -106,7 +106,7 @@ glimpse(datos)
 
 Por último, vamos a añadir la variable VHI al dataframe original y a eliminar las variables de la 28 a la 37.
 
-```{r}
+```{r, echo = FALSE}
 data<-data %>% select(-c(28:37))%>% 
    bind_cols(VHI=datos$score)
 glimpse(data) 
@@ -120,7 +120,7 @@ No encuentro en mi correo vuestra entrega. En todo caso hay que cruzar el score 
 
 Hacer un boxplot entre la higiene vocal y el score. Y luego una prueba inferencial.
 
-```{r}
+```{r, echo = FALSE}
 
 data <- data %>% 
   dplyr::mutate(higiene_vocal = case_when(
@@ -165,7 +165,7 @@ Para realizarlo, nos compararemos estas respuestas con las de otra pregunta. La 
 
 Lo haremos por frecuencias, es decir, calcularemos con que frecuencias alguien que no hace rutina ha tenido problemas y mediante estas frecuencias determinaremos el orden de prioridad. 
 
-```{r}
+```{r, echo = FALSE}
 data_seleccionado <- data %>% select(problema_curso22_23,higiene_vocal)
 
 
@@ -182,7 +182,7 @@ Ahora, debemos calcular la probabilidad de no tener enfermedad con cada una de l
 
 
 
-```{r}
+```{r, echo = FALSE}
 probabilidades <- frecuencias %>%
   group_by(higiene_vocal) %>%                       
   mutate(Probabilidad = n / sum(n)) %>% 
@@ -204,7 +204,7 @@ Notemos que este podium no tiene sentido lógico ya que por intuición se espera
 Es por ello, que haremos dos pruebas de inferencia, una con los resultados obtenidos en la clasificación y el otro con nuestra clasificación.
 
 **ORDENACIÓN OBTENIDOS**
-```{r}
+```{r, echo = FALSE}
 datos <- data %>%
   mutate(higiene_vocal_num = case_when(
     higiene_vocal == "Mucha agua" ~ 2,
@@ -218,7 +218,7 @@ datos <- data %>%
 
 Ahora realizamos el test:
   
-```{r}
+```{r, echo = FALSE}
 resultado_cor <- datos %>%
   summarise(cor_test = list(cor.test(VHI, higiene_vocal_num, method = "pearson", use = "complete.obs"))) %>%
   pull(cor_test)
@@ -228,7 +228,7 @@ Esto significa que se afectan de manera opuesta y por tanto, siguiendo la lógic
 
 **ORDENACIÓN PROPIA**
 
-```{r}
+```{r, echo = FALSE}
 
 datos <- data %>%
   mutate(higiene_vocal_num = case_when(
@@ -243,7 +243,7 @@ datos <- data %>%
 
 Ahora realizamos el test:
 
-```{r}
+```{r, echo = FALSE}
 resultado_cor <- datos %>%
   summarise(cor_test = list(cor.test(VHI, higiene_vocal_num, method = "pearson", use = "complete.obs"))) %>%
   pull(cor_test)
