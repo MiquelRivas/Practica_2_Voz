@@ -23,9 +23,6 @@ library(viridis)
 library(gt)
 ```
 
-## Lectura y limpieza de los datos
-
-Leemos los datos del fichero "Salut_Vocal_anonimizada.csv" y cambiamos los nombres de las variables.
 
 ```{r, echo = FALSE}
 raw_data<-read.csv("Salut_Vocal_anonimizada.csv",
@@ -74,7 +71,7 @@ raw_data <- raw_data %>% select(-X) %>%
 #glimpse(raw_data)
 ```
 
-Observamos que hay 185 respuestas y 37 variables. Vamos a limpiar los nombres de las variables y a convertir las variables categóricas en factores, a excepción de las variables "importancia_voz", "importancia_deporte" y "dieta_saludable" que las dejamos como variables cuantitativas discretas.
+
 
 ```{r, echo = FALSE}
 data <- janitor::clean_names(raw_data) %>% 
@@ -86,7 +83,7 @@ data <- janitor::clean_names(raw_data) %>%
 
 ```
 
-Ahora, para calcular el índice de calidad de voz (VHI), vamos a seleccionar las variables desde la 28 a la 37 para convertirlas en cuantitativas discretas y a sumarlas para obtener el índice VIH.
+
 
 ```{r, echo = FALSE}
 datos<-data %>% select(28:37) %>% 
@@ -104,7 +101,7 @@ datos<-datos %>% mutate(VHI=rowSums(datos))
 #glimpse(datos) 
 ```
 
-Por último, vamos a añadir la variable VHI al dataframe original y a eliminar las variables de la 28 a la 37.
+
 
 ```{r, echo = FALSE}
 data<-data %>% select(-c(28:37))%>% 
@@ -114,7 +111,7 @@ data<-data %>% select(-c(28:37))%>%
 
 ## P7: ¿El cuidado de voz mejora la calidad de la misma? ¿Cuál es la mejor medida?
 
-**Grupo escuderia_ferrrari: Álvaro Velasco Sobrino, Carlos Bayes Liébana, Miquel Rivas Vanrell** Hacer un boxplot entre la higiene vocal y el score. Y luego una prueba inferencial.
+**Grupo escuderia_ferrrari: Álvaro Velasco Sobrino, Carlos Bayes Liébana, Miquel Rivas Vanrell** 
 
 Analizamos la pregunta: "Segueix una rutina d'higiene vocal?" la cual tiene cuatro posibles respuestas de multiselección. Debemos hacer un apunte ya que esto puede suponer un inconveniente dando lugar a contradicciones. Por ejemplo, puede haber alguien que considere que calentar la voz antes de trabajar no es una rutina y que por tanto seleccione las opciones de "Escalf la veu abans de començar la feina" y "No seguesc cap rutina per a la veu". Es por ello y para evitar contradicciones que hemos encontrado, reordenamos las respuestas en los grupos que se muestran en el gráfico posterior.
 
@@ -157,7 +154,7 @@ ggplot(data = data, aes(x = higiene_vocal, y = VHI, fill = higiene_vocal)) +
   geom_text(data = resumen, aes(x=higiene_vocal, y=Inf, label = paste("n= ", observaciones)),position=position_dodge(0.9) , vjust = 1.5, size = 3)
 ```
 
-Como podemos observar algo no va bien, ya que según las directrices de los doctores, cuanto más baja sea la puntuación, significa mejor rutina. Por este motivo, la mejor rutina seería no seguir ninguna rutina, lo cual es sorprendente. 
+Como podemos observar algo no va bien, ya que según las directrices de los doctores, cuanto más baja sea la puntuación, significa mejor rutina. Por este motivo, la mejor rutina sería no seguir ninguna rutina, lo cual es sorprendente. 
 Ahora, hay que remarcar que tenemos pocos datos como para que sea concluyente, ya que solo hay dos personas que calientan y hacen reposo, dos que calientas, hacen reposo y beben mucha agua etc. Así, podemos intentar agrupar estas categorías con menos integrantes en otras. De este modo se obtiene:
 ```{r}
 data <- data %>% 
@@ -188,50 +185,13 @@ Como solución, podríamos poner una pregunta previa a las que corresponden al V
 
 
 Como se han observado contradicciones lógicas con los resultados del gráfico, buscamos hacer una comparación con otra pregunta para ver si obtenemos mejores resultados. 
-Para realizarlo, nos compararemos estas respuestas con las la pregunta: "Ha tengut problemes de veu importants i que li han dificultat la feina al llarg del curs 2022-2023?".
-
-Lo haremos por frecuencias, es decir, calcularemos con que frecuencias alguien que no hace rutina ha tenido problemas y mediante estas frecuencias determinaremos el orden de prioridad.
+Para realizarlo, nos compararemos estas respuestas con la pregunta: "Ha tengut problemes de veu importants i que li han dificultat la feina al llarg del curs 2022-2023?".
 
 
-```{r}
-data_para_OR = data %>% filter(higiene_vocal %in% c("Mucha agua", "No rutina")) 
-
-tabla = table(data_para_OR$higiene_vocal, data_para_OR$problema_curso22_23) %>%
-  as.data.frame.matrix()
-
-tabla <- tabla %>%
-  gt(rownames_to_stub = TRUE) %>%
-  tab_header(
-    title = "Tabla de Contingencia: Consumo de Agua y Problemas de Voz",
-    subtitle = "Frecuencia de personas que beben agua y tienen problemas de voz"
-  )
-tabla
-```
 
 
-```{r, echo = FALSE}
-data_seleccionado <- data %>% select(problema_curso22_23,higiene_vocal)
 
 
-frecuencias <- data_seleccionado %>%
-  count(problema_curso22_23, higiene_vocal) # Contar las combinaciones
-  
-  
-  # Mostrar la tabla de frecuencias relativas
-print(frecuencias)
-```
-
-Ahora, debemos calcular la probabilidad de no tener enfermedad con cada una de las respuestas.
-
-```{r, echo = FALSE}
-probabilidades <- frecuencias %>%
-  group_by(higiene_vocal) %>%                       
-  mutate(Probabilidad = n / sum(n)) %>% 
-  ungroup()
-
-# Mostrar la tabla con las probabilidades
-print(probabilidades)
-```
 
 
 **Test de inferencia**
@@ -248,6 +208,39 @@ chisq_result
 ```
 Como nuestro p-valor=0.1177>0.05, aceptamos la hipótesis nula y por tanto, no hay relación entre el cuidado de la voz y la calidad de la misma.
 
+**Cálculo de las OR**
+
+Aunque la prueba chi cuadrado no haya mostrado resultados satisfactorios, intentemos sacar conclusiones mediante las OR. En particular queremos ver si beber mucha agua es un factor protector o un factor de riesgo. Veamos primero la tabla de contingencia:
+
+```{r,echo = FALSE}
+data_para_OR = data %>% filter(higiene_vocal %in% c("Mucha agua", "No rutina"))  
+tabla = table(data_para_OR$higiene_vocal, data_para_OR$problema_curso22_23) %>%
+  as.data.frame.matrix() 
+
+tabla %>%
+  gt(rownames_to_stub = TRUE) %>%
+  tab_header(
+    title = "Tabla de Contingencia: Consumo de Agua y Problemas de Voz",
+    subtitle = "Frecuencia de personas que beben agua y tienen problemas de voz"
+  )
+```
+Haciendo los cálculos tenemos que $OR(\text{Tener problemas}|\text{Mucha agua}) = 3.535$, por lo tanto las odds de tener problemas de voz cuando una persona bebe agua son 3.535 veces las odds de tener problemas de voz cuando una persona no sigue rutina. Esto implica que beber agua es un factor de riesgo. La conclusión es bastante desfavorable ya que nos indica que beber mucha agua es problemático para la voz. Aunque tengamos pocos datos, hagamos lo mismo para ver si hacer reposo es un factor de riesgo.
+
+
+```{r,echo = FALSE}
+data_para_OR = data %>% filter(higiene_vocal %in% c("Reposo", "No rutina"))  
+tabla = table(data_para_OR$higiene_vocal, data_para_OR$problema_curso22_23) %>%
+  as.data.frame.matrix() 
+
+tabla %>%
+  gt(rownames_to_stub = TRUE) %>%
+  tab_header(
+    title = "Tabla de Contingencia: Hacer Reposo y Problemas de Voz",
+    subtitle = "Frecuencia de personas que hacen reposo y tienen problemas de voz"
+  )
+```
+En este caso la $OR(\text{Tener problemas}|\text{Reposo})=5.278$, lo que nos vuelve a decir que hacer reposo después de las clases es un factor de riesgo, cosa que también nos parece contradictoria.
+
 **Respuesta a la pregunta 7:**
-El resultado del test inferencial, cuadra con el gráfico anterior, ya que este da a entender que el mejor hábito para la voz es no seguir ninguna rutina. 
-Aún así, existe la posibilidad de que, debido a la formulación de las preguntas, no se recopile toda la información de forma adecuada para esclarecer de manera correcta la pregunta, como por ejemplo, la razón por la que se empieza una rutina, como hemos explicado anteriormente.
+El resultado del test inferencial, cuadra con el gráfico anterior, ya que este da a entender que el mejor hábito para la voz es no seguir ninguna rutina. Por otra parte, las OR nos dicen que beber mucha agua o hacer reposo son factores de riesgo para la calidad de la voz. 
+Aún así, existe la posibilidad de que, debido a la formulación de las preguntas o la ausencia de ellas, no se recopile toda la información de forma adecuada para esclarecer de manera correcta la pregunta, como por ejemplo, la razón por la que se empieza una rutina, como hemos explicado anteriormente.

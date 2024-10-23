@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-10-16">
+<meta name="dcterms.date" content="2024-10-23">
 
 <title>Síntomas vocales en profesores</title>
 <style>
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -35,6 +69,35 @@ ul.task-list li input[type="checkbox"] {
 <link href="limpio_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="limpio_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -46,8 +109,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#lectura-y-limpieza-de-los-datos" id="toc-lectura-y-limpieza-de-los-datos" class="nav-link active" data-scroll-target="#lectura-y-limpieza-de-los-datos">Lectura y limpieza de los datos</a></li>
-  <li><a href="#p7-el-cuidado-de-voz-mejora-la-calidad-de-la-misma-cuál-es-la-mejor-medida" id="toc-p7-el-cuidado-de-voz-mejora-la-calidad-de-la-misma-cuál-es-la-mejor-medida" class="nav-link" data-scroll-target="#p7-el-cuidado-de-voz-mejora-la-calidad-de-la-misma-cuál-es-la-mejor-medida">P7: ¿El cuidado de voz mejora la calidad de la misma? ¿Cuál es la mejor medida?</a></li>
+  <li><a href="#p7-el-cuidado-de-voz-mejora-la-calidad-de-la-misma-cuál-es-la-mejor-medida" id="toc-p7-el-cuidado-de-voz-mejora-la-calidad-de-la-misma-cuál-es-la-mejor-medida" class="nav-link active" data-scroll-target="#p7-el-cuidado-de-voz-mejora-la-calidad-de-la-misma-cuál-es-la-mejor-medida">P7: ¿El cuidado de voz mejora la calidad de la misma? ¿Cuál es la mejor medida?</a></li>
   </ul>
 </nav>
 </div>
@@ -67,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 16, 2024</p>
+      <p class="date">October 23, 2024</p>
     </div>
   </div>
   
@@ -80,155 +142,24 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p><strong>Grupo escuderia_ferrrari: Álvaro Velasco Sobrino, Carlos Bayes Liébana, Miquel Rivas Vanrell</strong></p>
-<section id="lectura-y-limpieza-de-los-datos" class="level2">
-<h2 class="anchored" data-anchor-id="lectura-y-limpieza-de-los-datos">Lectura y limpieza de los datos</h2>
-<p>Leemos los datos del fichero “Salut_Vocal_anonimizada.csv” y cambiamos los nombres de las variables.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 185
-Columns: 37
-$ ID                       &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14…
-$ Importancia_voz          &lt;int&gt; 10, 10, 10, 10, 10, 10, 9, 9, 10, 10, 9, 10, …
-$ Sexo                     &lt;chr&gt; "Femení", "Femení", "Masculí", "Femení", "Fem…
-$ Lugar_trabajo            &lt;chr&gt; "Palma, Llucmajor, Algaida, Santa Eugènia, Ma…
-$ Cuerpo_docente           &lt;chr&gt; "Formació Professional", "Educació Secundària…
-$ Edad                     &lt;chr&gt; "Entre 36 i 50", "Entre 36 i 50", "Entre 36 i…
-$ Actividas_fisica         &lt;chr&gt; "Més de 150 min. per setmana", "Més de 150 mi…
-$ Importancia_deporte      &lt;int&gt; 10, 10, 10, 8, 10, 10, 10, 7, 10, 10, 7, 9, 7…
-$ Calidad_sueño            &lt;chr&gt; "Dorm bé i em despert descansat", "Dorm bé pe…
-$ Cafe                     &lt;chr&gt; "Diàriament", "Ocasionalment", "Diàriament", …
-$ Tabaco                   &lt;chr&gt; "Diariament", "No", "No", "Anteriorment (exfu…
-$ Alcohol                  &lt;chr&gt; "Ocasionalment", "Ocasionalment", "Setmanalme…
-$ Bebida_gas               &lt;chr&gt; "Mai", "Ocasionalment", "Diàriament", "Ocasio…
-$ Dieta_saludable          &lt;int&gt; 8, 6, 9, 6, 10, 10, 8, 8, 8, 8, 9, 9, 8, 7, 7…
-$ Diagnostico              &lt;chr&gt; "Cap de les esmentades anteriorment", "Cap de…
-$ Patologia                &lt;chr&gt; "", "", "", "", "Asma, al·lergia", "", "", ""…
-$ Diagnostico_especialista &lt;chr&gt; "No", "Si", "No", "Si", "No", "Si", "No", "No…
-$ Sintomas                 &lt;chr&gt; "Mucositat", "Fatiga vocal", "Veu ronca, esca…
-$ Operacion                &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No…
-$ Tiempo_alteracion        &lt;chr&gt; "No tenc cap alteració de la veu.", "Va comen…
-$ Baja_voz                 &lt;chr&gt; "No, mai he estat de baixa per un problema de…
-$ Baja_larga               &lt;chr&gt; "", "El curs escolar passat. Una setmana senc…
-$ Problema_curso22_23      &lt;chr&gt; "No", "Si", "Si", "No", "Si", "Si", "Si", "No…
-$ Formacion_voz            &lt;chr&gt; "Si, vaig fer un curs fa temps", "No, mai he …
-$ Medicacion               &lt;chr&gt; "Aspirina i antiinflamatoris no esteroideus",…
-$ Higiene_vocal            &lt;chr&gt; "No seguesc cap rutina per a la veu", "No seg…
-$ Actividades              &lt;chr&gt; "No faig cap activitat amb exigència vocal ex…
-$ No_me_ecuchan            &lt;chr&gt; "Mai", "Mai", "Mai", "Gairebé sempre", "Sempr…
-$ No_me_escuchan_ruido     &lt;chr&gt; "Mai", "A vegades", "Gairebé sempre", "Gaireb…
-$ Alteracion_vida_social   &lt;chr&gt; "Mai", "A vegades", "A vegades", "Gairebé mai…
-$ Desplazado_conversacion  &lt;chr&gt; "Mai", "Mai", "Mai", "Gairebé mai", "A vegade…
-$ Rendimiento_laboral      &lt;chr&gt; "Mai", "A vegades", "Gairebé mai", "Mai", "Ga…
-$ Tensar_producir_voz      &lt;chr&gt; "Mai", "A vegades", "Mai", "Mai", "A vegades"…
-$ Calidad_imprevisible     &lt;chr&gt; "Mai", "Mai", "Mai", "Mai", "Gairebé sempre",…
-$ Me_molesta               &lt;chr&gt; "Mai", "Mai", "Mai", "Mai", "Gairebé sempre",…
-$ Minusvalia               &lt;chr&gt; "Mai", "Mai", "Mai", "Mai", "Gairebé sempre",…
-$ Gente_pregunta           &lt;chr&gt; "Mai", "Mai", "Mai", "Mai", "Gairebé sempre",…</code></pre>
-</div>
-</div>
-<p>Observamos que hay 185 respuestas y 37 variables. Vamos a limpiar los nombres de las variables y a convertir las variables categóricas en factores, a excepción de las variables “importancia_voz”, “importancia_deporte” y “dieta_saludable” que las dejamos como variables cuantitativas discretas.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 185
-Columns: 37
-$ id                       &lt;fct&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14…
-$ importancia_voz          &lt;int&gt; 10, 10, 10, 10, 10, 10, 9, 9, 10, 10, 9, 10, …
-$ sexo                     &lt;fct&gt; Femení, Femení, Masculí, Femení, Femení, Feme…
-$ lugar_trabajo            &lt;fct&gt; "Palma, Llucmajor, Algaida, Santa Eugènia, Ma…
-$ cuerpo_docente           &lt;fct&gt; "Formació Professional", "Educació Secundària…
-$ edad                     &lt;fct&gt; Entre 36 i 50, Entre 36 i 50, Entre 36 i 50, …
-$ actividas_fisica         &lt;fct&gt; Més de 150 min. per setmana, Més de 150 min. …
-$ importancia_deporte      &lt;int&gt; 10, 10, 10, 8, 10, 10, 10, 7, 10, 10, 7, 9, 7…
-$ calidad_sueno            &lt;fct&gt; Dorm bé i em despert descansat, Dorm bé però …
-$ cafe                     &lt;fct&gt; Diàriament, Ocasionalment, Diàriament, Diària…
-$ tabaco                   &lt;fct&gt; Diariament, No, No, Anteriorment (exfumador),…
-$ alcohol                  &lt;fct&gt; Ocasionalment, Ocasionalment, Setmanalment, S…
-$ bebida_gas               &lt;fct&gt; Mai, Ocasionalment, Diàriament, Ocasionalment…
-$ dieta_saludable          &lt;int&gt; 8, 6, 9, 6, 10, 10, 8, 8, 8, 8, 9, 9, 8, 7, 7…
-$ diagnostico              &lt;fct&gt; "Cap de les esmentades anteriorment", "Cap de…
-$ patologia                &lt;fct&gt; "", "", "", "", "Asma, al·lergia", "", "", ""…
-$ diagnostico_especialista &lt;fct&gt; No, Si, No, Si, No, Si, No, No, Si, No, No, N…
-$ sintomas                 &lt;fct&gt; "Mucositat", "Fatiga vocal", "Veu ronca, esca…
-$ operacion                &lt;fct&gt; No, No, No, No, No, No, No, No, Si, No, No, N…
-$ tiempo_alteracion        &lt;fct&gt; No tenc cap alteració de la veu., Va començar…
-$ baja_voz                 &lt;fct&gt; "No, mai he estat de baixa per un problema de…
-$ baja_larga               &lt;fct&gt; "", "El curs escolar passat. Una setmana senc…
-$ problema_curso22_23      &lt;fct&gt; No, Si, Si, No, Si, Si, Si, No, No, No, No, N…
-$ formacion_voz            &lt;fct&gt; "Si, vaig fer un curs fa temps", "No, mai he …
-$ medicacion               &lt;fct&gt; "Aspirina i antiinflamatoris no esteroideus",…
-$ higiene_vocal            &lt;fct&gt; "No seguesc cap rutina per a la veu", "No seg…
-$ actividades              &lt;fct&gt; "No faig cap activitat amb exigència vocal ex…
-$ no_me_ecuchan            &lt;fct&gt; Mai, Mai, Mai, Gairebé sempre, Sempre, Gaireb…
-$ no_me_escuchan_ruido     &lt;fct&gt; Mai, A vegades, Gairebé sempre, Gairebé sempr…
-$ alteracion_vida_social   &lt;fct&gt; Mai, A vegades, A vegades, Gairebé mai, Gaire…
-$ desplazado_conversacion  &lt;fct&gt; Mai, Mai, Mai, Gairebé mai, A vegades, Mai, M…
-$ rendimiento_laboral      &lt;fct&gt; Mai, A vegades, Gairebé mai, Mai, Gairebé sem…
-$ tensar_producir_voz      &lt;fct&gt; Mai, A vegades, Mai, Mai, A vegades, A vegade…
-$ calidad_imprevisible     &lt;fct&gt; Mai, Mai, Mai, Mai, Gairebé sempre, A vegades…
-$ me_molesta               &lt;fct&gt; Mai, Mai, Mai, Mai, Gairebé sempre, Mai, Gair…
-$ minusvalia               &lt;fct&gt; Mai, Mai, Mai, Mai, Gairebé sempre, Mai, A ve…
-$ gente_pregunta           &lt;fct&gt; Mai, Mai, Mai, Mai, Gairebé sempre, A vegades…</code></pre>
-</div>
-</div>
-<p>Ahora, para calcular el índice de calidad de voz (VHI), vamos a seleccionar las variables desde la 28 a la 37 para convertirlas en cuantitativas discretas y a sumarlas para obtener el índice VIH.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 185
-Columns: 11
-$ no_me_ecuchan           &lt;dbl&gt; 0, 0, 0, 3, 4, 3, 2, 0, 1, 1, 0, 0, 1, 0, 1, 0…
-$ no_me_escuchan_ruido    &lt;dbl&gt; 0, 2, 3, 3, 1, 3, 1, 0, 2, 1, 0, 2, 3, 1, 2, 0…
-$ alteracion_vida_social  &lt;dbl&gt; 0, 2, 2, 1, 3, 1, 2, 0, 1, 1, 0, 0, 0, 1, 0, 0…
-$ desplazado_conversacion &lt;dbl&gt; 0, 0, 0, 1, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0…
-$ rendimiento_laboral     &lt;dbl&gt; 0, 2, 1, 0, 3, 2, 3, 1, 0, 1, 0, 0, 1, 1, 1, 0…
-$ tensar_producir_voz     &lt;dbl&gt; 0, 2, 0, 0, 2, 2, 2, 1, 1, 1, 0, 0, 2, 2, 1, 0…
-$ calidad_imprevisible    &lt;dbl&gt; 0, 0, 0, 0, 3, 2, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0…
-$ me_molesta              &lt;dbl&gt; 0, 0, 0, 0, 3, 0, 1, 1, 2, 0, 1, 0, 0, 1, 1, 0…
-$ minusvalia              &lt;dbl&gt; 0, 0, 0, 0, 3, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0…
-$ gente_pregunta          &lt;dbl&gt; 0, 0, 0, 0, 3, 2, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0…
-$ VHI                     &lt;dbl&gt; 0, 8, 6, 8, 27, 15, 14, 4, 10, 7, 1, 2, 8, 6, …</code></pre>
-</div>
-</div>
-<p>Por último, vamos a añadir la variable VHI al dataframe original y a eliminar las variables de la 28 a la 37.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 185
-Columns: 27
-$ id                       &lt;fct&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14…
-$ importancia_voz          &lt;int&gt; 10, 10, 10, 10, 10, 10, 9, 9, 10, 10, 9, 10, …
-$ sexo                     &lt;fct&gt; Femení, Femení, Masculí, Femení, Femení, Feme…
-$ lugar_trabajo            &lt;fct&gt; "Palma, Llucmajor, Algaida, Santa Eugènia, Ma…
-$ cuerpo_docente           &lt;fct&gt; "Formació Professional", "Educació Secundària…
-$ edad                     &lt;fct&gt; Entre 36 i 50, Entre 36 i 50, Entre 36 i 50, …
-$ actividas_fisica         &lt;fct&gt; Més de 150 min. per setmana, Més de 150 min. …
-$ importancia_deporte      &lt;int&gt; 10, 10, 10, 8, 10, 10, 10, 7, 10, 10, 7, 9, 7…
-$ calidad_sueno            &lt;fct&gt; Dorm bé i em despert descansat, Dorm bé però …
-$ cafe                     &lt;fct&gt; Diàriament, Ocasionalment, Diàriament, Diària…
-$ tabaco                   &lt;fct&gt; Diariament, No, No, Anteriorment (exfumador),…
-$ alcohol                  &lt;fct&gt; Ocasionalment, Ocasionalment, Setmanalment, S…
-$ bebida_gas               &lt;fct&gt; Mai, Ocasionalment, Diàriament, Ocasionalment…
-$ dieta_saludable          &lt;int&gt; 8, 6, 9, 6, 10, 10, 8, 8, 8, 8, 9, 9, 8, 7, 7…
-$ diagnostico              &lt;fct&gt; "Cap de les esmentades anteriorment", "Cap de…
-$ patologia                &lt;fct&gt; "", "", "", "", "Asma, al·lergia", "", "", ""…
-$ diagnostico_especialista &lt;fct&gt; No, Si, No, Si, No, Si, No, No, Si, No, No, N…
-$ sintomas                 &lt;fct&gt; "Mucositat", "Fatiga vocal", "Veu ronca, esca…
-$ operacion                &lt;fct&gt; No, No, No, No, No, No, No, No, Si, No, No, N…
-$ tiempo_alteracion        &lt;fct&gt; No tenc cap alteració de la veu., Va començar…
-$ baja_voz                 &lt;fct&gt; "No, mai he estat de baixa per un problema de…
-$ baja_larga               &lt;fct&gt; "", "El curs escolar passat. Una setmana senc…
-$ problema_curso22_23      &lt;fct&gt; No, Si, Si, No, Si, Si, Si, No, No, No, No, N…
-$ formacion_voz            &lt;fct&gt; "Si, vaig fer un curs fa temps", "No, mai he …
-$ medicacion               &lt;fct&gt; "Aspirina i antiinflamatoris no esteroideus",…
-$ higiene_vocal            &lt;fct&gt; "No seguesc cap rutina per a la veu", "No seg…
-$ actividades              &lt;fct&gt; "No faig cap activitat amb exigència vocal ex…</code></pre>
-</div>
-</div>
-</section>
 <section id="p7-el-cuidado-de-voz-mejora-la-calidad-de-la-misma-cuál-es-la-mejor-medida" class="level2">
 <h2 class="anchored" data-anchor-id="p7-el-cuidado-de-voz-mejora-la-calidad-de-la-misma-cuál-es-la-mejor-medida">P7: ¿El cuidado de voz mejora la calidad de la misma? ¿Cuál es la mejor medida?</h2>
 <p><strong>Grupo escuderia_ferrrari: Álvaro Velasco Sobrino, Carlos Bayes Liébana, Miquel Rivas Vanrell</strong></p>
-<p>No encuentro en mi correo vuestra entrega. En todo caso hay que cruzar el score VIH con la pregunta si el participante sigue una rutina de higiene vocal.</p>
-<p>Hacer un boxplot entre la higiene vocal y el score. Y luego una prueba inferencial.</p>
+<p>Analizamos la pregunta: “Segueix una rutina d’higiene vocal?” la cual tiene cuatro posibles respuestas de multiselección. Debemos hacer un apunte ya que esto puede suponer un inconveniente dando lugar a contradicciones. Por ejemplo, puede haber alguien que considere que calentar la voz antes de trabajar no es una rutina y que por tanto seleccione las opciones de “Escalf la veu abans de començar la feina” y “No seguesc cap rutina per a la veu”. Es por ello y para evitar contradicciones que hemos encontrado, reordenamos las respuestas en los grupos que se muestran en el gráfico posterior.</p>
 <div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 8
+  higiene_vocal           media_VHI mediana_VHI desviacion_VHI    q1    q3   IQR
+  &lt;chr&gt;                       &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Calienta y reposo           23.5         23.5           2.12 22.8  24.2   1.5 
+2 Calienta, reposo y muc…     16.5         16.5          13.4  11.8  21.2   9.5 
+3 Caliento                     3.5          3.5           4.95  1.75  5.25  3.5 
+4 Mucha agua                   8.56         8             6.71  2.5  13    10.5 
+5 No rutina                    5.14         4             4.63  2     7     5   
+6 Reposo                      10.6          9             7.62  6.75 13.5   6.75
+7 Reposo y mucha agua          9.31         9.5           7.00  4    13.8   9.75
+# ℹ 1 more variable: observaciones &lt;int&gt;</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -237,91 +168,1028 @@ $ actividades              &lt;fct&gt; "No faig cap activitat amb exigència voc
 </div>
 </div>
 </div>
-<p>Para facilitarnos el trabajo a la hora de hacer el test de inferencia, que en este caso será de correlación, consideramos que este es el test de inferencia más adecuado ya que nos dirá a que nivel encontramos relación entre estas variables (que es lo que se quiere responder en estas preguntas). Para ello, convertiremos las respuestas (cualitativas) en valores numéricos:</p>
-<p>Lo que haremos será asignar una variable numérica a cada respuesta posible ordenada de menor a mayor según lo buena o efectiva que es la rutina que siguen (orden de prioridad). Así, para no evitar contradicciones con las respuestas lo que haremos será considerar solo 6 de estas respuestas, que son: “Mucha agua”, “Calienta y reposo”, “Calienta, reposo y mucha agua”, “Reposo”, “No rutina”, “Reposo y mucha agua”.</p>
-<p>Para realizarlo, nos compararemos estas respuestas con las de otra pregunta. La pregunta será: “Ha tengut problemes de veu importants i que li han dificultat la feina al llarg del curs 2022-2023?”.</p>
-<p>Lo haremos por frecuencias, es decir, calcularemos con que frecuencias alguien que no hace rutina ha tenido problemas y mediante estas frecuencias determinaremos el orden de prioridad.</p>
+<p>Como podemos observar algo no va bien, ya que según las directrices de los doctores, cuanto más baja sea la puntuación, significa mejor rutina. Por este motivo, la mejor rutina sería no seguir ninguna rutina, lo cual es sorprendente. Ahora, hay que remarcar que tenemos pocos datos como para que sea concluyente, ya que solo hay dos personas que calientan y hacen reposo, dos que calientas, hacen reposo y beben mucha agua etc. Así, podemos intentar agrupar estas categorías con menos integrantes en otras. De este modo se obtiene:</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>   problema_curso22_23                 higiene_vocal  n
-1                   No Calienta, reposo y mucha agua  1
-2                   No                      Caliento  1
-3                   No                    Mucha agua 43
-4                   No                     No rutina 76
-5                   No                        Reposo  8
-6                   No           Reposo y mucha agua 20
-7                   Si             Calienta y reposo  2
-8                   Si Calienta, reposo y mucha agua  1
-9                   Si                      Caliento  1
-10                  Si                    Mucha agua 16
-11                  Si                     No rutina  8
-12                  Si                        Reposo  2
-13                  Si           Reposo y mucha agua  6</code></pre>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">higiene_vocal =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    higiene_vocal <span class="sc">==</span> <span class="st">"Calienta y reposo"</span> <span class="sc">~</span> <span class="st">"Reposo"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    higiene_vocal <span class="sc">==</span> <span class="st">"Calienta, reposo y mucha agua"</span> <span class="sc">~</span> <span class="st">"Reposo"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> higiene_vocal  <span class="co"># Para mantener las categorías que no coincidan</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>resumen <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(higiene_vocal) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">observaciones =</span> <span class="fu">n</span>())</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear el boxplot con los conteos</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">x =</span> higiene_vocal, <span class="at">y =</span> VHI, <span class="at">fill =</span> higiene_vocal)) <span class="sc">+</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución del Score VHI por Rutina de Higiene Vocal"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Higiene Vocal"</span>, <span class="at">y =</span> <span class="st">"Score VHI"</span>) <span class="sc">+</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">7.5</span>),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> resumen, <span class="fu">aes</span>(<span class="at">x=</span>higiene_vocal, <span class="at">y=</span><span class="cn">Inf</span>, <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">"n = "</span>, observaciones)),<span class="at">position=</span><span class="fu">position_dodge</span>(<span class="fl">0.9</span>) , <span class="at">vjust =</span> <span class="fl">1.5</span>, <span class="at">size =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="limpio_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<p>Ahora, debemos calcular la probabilidad de no tener enfermedad con cada una de las respuestas.</p>
+</div>
+<p>Como podemos observar, sigue sin tener sentido lógico. Aún así, esto puede deberse a un error formulatorio de la pregunta. Habría que aclarar el motivo por el cual un individuo realiza una rutina ya que puede venir motivado por el haber tenido problemas con la voz, en vez de que el motivo principal sea la prevención. Como solución, podríamos poner una pregunta previa a las que corresponden al VHI que clarificara el motivo de llevar una rutina.</p>
+<p>Como se han observado contradicciones lógicas con los resultados del gráfico, buscamos hacer una comparación con otra pregunta para ver si obtenemos mejores resultados. Para realizarlo, nos compararemos estas respuestas con la pregunta: “Ha tengut problemes de veu importants i que li han dificultat la feina al llarg del curs 2022-2023?”.</p>
+<p><strong>Test de inferencia</strong></p>
+<p>Usaremos el test de chi cuadrado donde nuestra hipótesis nula es “No hay relación entre los cuidados de la voz y la calidad de la misma” y la hipótesis alternativa es “Si hay relación entre los cuidados de la voz y la calidad de la misma”. Realizamos el test</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear tabla de contingencia</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tabla_contingencia <span class="ot">&lt;-</span> <span class="fu">table</span>(data<span class="sc">$</span>higiene_vocal, data<span class="sc">$</span>VHI)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prueba Chi-cuadrado</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>chisq_result <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tabla_contingencia)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>chisq_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 13 × 4
-   problema_curso22_23 higiene_vocal                     n Probabilidad
-   &lt;fct&gt;               &lt;chr&gt;                         &lt;int&gt;        &lt;dbl&gt;
- 1 No                  Calienta, reposo y mucha agua     1       0.5   
- 2 No                  Caliento                          1       0.5   
- 3 No                  Mucha agua                       43       0.729 
- 4 No                  No rutina                        76       0.905 
- 5 No                  Reposo                            8       0.8   
- 6 No                  Reposo y mucha agua              20       0.769 
- 7 Si                  Calienta y reposo                 2       1     
- 8 Si                  Calienta, reposo y mucha agua     1       0.5   
- 9 Si                  Caliento                          1       0.5   
-10 Si                  Mucha agua                       16       0.271 
-11 Si                  No rutina                         8       0.0952
-12 Si                  Reposo                            2       0.2   
-13 Si                  Reposo y mucha agua               6       0.231 </code></pre>
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  tabla_contingencia
+X-squared = 117, df = 100, p-value = 0.1177</code></pre>
 </div>
 </div>
-<p>Por tanto, lo mejor es lo que en problema_curso22_23 tenga mayor probabilidad. 1-No rutina 2-Hace reposo 3-Hace reposo y bebe mucha agua 4-Bebe mucha agua 5-Calienta, hace reposo y bebe mucha agua 6-Escalf la veu abans de començar la feina</p>
-<p>Notemos que este podium no tiene sentido lógico ya que por intuición se espera que tener una rutina sea lo mejor para la voz pero no es así. Esto se puede deber a la falta de respuestas (ya que solo hay dos observaciones de los tratamientos aparentemente mejores). Es por ello, que haremos dos pruebas de inferencia, una con los resultados obtenidos en la clasificación y el otro con nuestra clasificación.</p>
-<p><strong>ORDENACIÓN OBTENIDOS</strong></p>
-<p>Ahora realizamos el test:</p>
+<p>Como nuestro p-valor=0.1177&gt;0.05, aceptamos la hipótesis nula y por tanto, no hay relación entre el cuidado de la voz y la calidad de la misma.</p>
+<p><strong>Cálculo de las OR</strong></p>
+<p>Aunque la prueba chi cuadrado no haya mostrado resultados satisfactorios, intentemos sacar conclusiones mediante las OR. En particular queremos ver si beber mucha agua es un factor protector o un factor de riesgo. Veamos primero la tabla de contingencia:</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
+<div class="cell-output-display">
+<div id="qsqzrlmdlj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qsqzrlmdlj table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-    Pearson's product-moment correlation
+#qsqzrlmdlj thead, #qsqzrlmdlj tbody, #qsqzrlmdlj tfoot, #qsqzrlmdlj tr, #qsqzrlmdlj td, #qsqzrlmdlj th {
+  border-style: none;
+}
 
-data:  VHI and higiene_vocal_num
-t = -4.708, df = 181, p-value = 4.961e-06
-alternative hypothesis: true correlation is not equal to 0
-95 percent confidence interval:
- -0.4536226 -0.1945654
-sample estimates:
-    cor 
--0.3303 </code></pre>
+#qsqzrlmdlj p {
+  margin: 0;
+  padding: 0;
+}
+
+#qsqzrlmdlj .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#qsqzrlmdlj .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#qsqzrlmdlj .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#qsqzrlmdlj .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#qsqzrlmdlj .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qsqzrlmdlj .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qsqzrlmdlj .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qsqzrlmdlj .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#qsqzrlmdlj .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#qsqzrlmdlj .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#qsqzrlmdlj .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#qsqzrlmdlj .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#qsqzrlmdlj .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#qsqzrlmdlj .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#qsqzrlmdlj .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#qsqzrlmdlj .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#qsqzrlmdlj .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#qsqzrlmdlj .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#qsqzrlmdlj .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qsqzrlmdlj .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#qsqzrlmdlj .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#qsqzrlmdlj .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#qsqzrlmdlj .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qsqzrlmdlj .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#qsqzrlmdlj .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#qsqzrlmdlj .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qsqzrlmdlj .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qsqzrlmdlj .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#qsqzrlmdlj .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qsqzrlmdlj .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#qsqzrlmdlj .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qsqzrlmdlj .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qsqzrlmdlj .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qsqzrlmdlj .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qsqzrlmdlj .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qsqzrlmdlj .gt_left {
+  text-align: left;
+}
+
+#qsqzrlmdlj .gt_center {
+  text-align: center;
+}
+
+#qsqzrlmdlj .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#qsqzrlmdlj .gt_font_normal {
+  font-weight: normal;
+}
+
+#qsqzrlmdlj .gt_font_bold {
+  font-weight: bold;
+}
+
+#qsqzrlmdlj .gt_font_italic {
+  font-style: italic;
+}
+
+#qsqzrlmdlj .gt_super {
+  font-size: 65%;
+}
+
+#qsqzrlmdlj .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#qsqzrlmdlj .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#qsqzrlmdlj .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#qsqzrlmdlj .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#qsqzrlmdlj .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#qsqzrlmdlj .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#qsqzrlmdlj .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#qsqzrlmdlj .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#qsqzrlmdlj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="3" class="gt_heading gt_title gt_font_normal">Tabla de Contingencia: Consumo de Agua y Problemas de Voz</th>
+</tr>
+<tr class="odd gt_heading">
+<th colspan="3" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Frecuencia de personas que beben agua y tienen problemas de voz</th>
+</tr>
+<tr class="header gt_col_headings">
+<th id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="No" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">No</th>
+<th id="Si" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Si</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Mucha agua</td>
+<td class="gt_row gt_right" headers="stub_1_1 No">43</td>
+<td class="gt_row gt_right" headers="stub_1_1 Si">16</td>
+</tr>
+<tr class="even">
+<td id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">No rutina</td>
+<td class="gt_row gt_right" headers="stub_1_2 No">76</td>
+<td class="gt_row gt_right" headers="stub_1_2 Si">8</td>
+</tr>
+</tbody>
+</table>
+
 </div>
 </div>
-<p>Esto significa que se afectan de manera opuesta y por tanto, siguiendo la lógica, esta ordenación no tiene sentido.</p>
-<p><strong>ORDENACIÓN PROPIA</strong></p>
-<p>Ahora realizamos el test:</p>
+</div>
+<p>Haciendo los cálculos tenemos que <span class="math inline">\(OR(\text{Tener problemas}|\text{Mucha agua}) = 3.535\)</span>, por lo tanto las odds de tener problemas de voz cuando una persona bebe agua son 3.535 veces las odds de tener problemas de voz cuando una persona no sigue rutina. Esto implica que beber agua es un factor de riesgo. La conclusión es bastante desfavorable ya que nos indica que beber mucha agua es problemático para la voz. Aunque tengamos pocos datos, hagamos lo mismo para ver si hacer reposo es un factor de riesgo.</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
+<div class="cell-output-display">
+<div id="qxcycbsaql" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qxcycbsaql table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-    Pearson's product-moment correlation
+#qxcycbsaql thead, #qxcycbsaql tbody, #qxcycbsaql tfoot, #qxcycbsaql tr, #qxcycbsaql td, #qxcycbsaql th {
+  border-style: none;
+}
 
-data:  VHI and higiene_vocal_num
-t = 4.2511, df = 181, p-value = 3.403e-05
-alternative hypothesis: true correlation is not equal to 0
-95 percent confidence interval:
- 0.1633788 0.4276608
-sample estimates:
-     cor 
-0.301295 </code></pre>
+#qxcycbsaql p {
+  margin: 0;
+  padding: 0;
+}
+
+#qxcycbsaql .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#qxcycbsaql .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#qxcycbsaql .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#qxcycbsaql .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#qxcycbsaql .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qxcycbsaql .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qxcycbsaql .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qxcycbsaql .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#qxcycbsaql .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#qxcycbsaql .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#qxcycbsaql .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#qxcycbsaql .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#qxcycbsaql .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#qxcycbsaql .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#qxcycbsaql .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#qxcycbsaql .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#qxcycbsaql .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#qxcycbsaql .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#qxcycbsaql .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qxcycbsaql .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#qxcycbsaql .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#qxcycbsaql .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#qxcycbsaql .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qxcycbsaql .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#qxcycbsaql .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#qxcycbsaql .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qxcycbsaql .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qxcycbsaql .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#qxcycbsaql .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qxcycbsaql .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#qxcycbsaql .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qxcycbsaql .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qxcycbsaql .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qxcycbsaql .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qxcycbsaql .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qxcycbsaql .gt_left {
+  text-align: left;
+}
+
+#qxcycbsaql .gt_center {
+  text-align: center;
+}
+
+#qxcycbsaql .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#qxcycbsaql .gt_font_normal {
+  font-weight: normal;
+}
+
+#qxcycbsaql .gt_font_bold {
+  font-weight: bold;
+}
+
+#qxcycbsaql .gt_font_italic {
+  font-style: italic;
+}
+
+#qxcycbsaql .gt_super {
+  font-size: 65%;
+}
+
+#qxcycbsaql .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#qxcycbsaql .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#qxcycbsaql .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#qxcycbsaql .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#qxcycbsaql .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#qxcycbsaql .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#qxcycbsaql .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#qxcycbsaql .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#qxcycbsaql div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="3" class="gt_heading gt_title gt_font_normal">Tabla de Contingencia: Hacer Reposo y Problemas de Voz</th>
+</tr>
+<tr class="odd gt_heading">
+<th colspan="3" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Frecuencia de personas que hacen reposo y tienen problemas de voz</th>
+</tr>
+<tr class="header gt_col_headings">
+<th id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="No" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">No</th>
+<th id="Si" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Si</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">No rutina</td>
+<td class="gt_row gt_right" headers="stub_1_1 No">76</td>
+<td class="gt_row gt_right" headers="stub_1_1 Si">8</td>
+</tr>
+<tr class="even">
+<td id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Reposo</td>
+<td class="gt_row gt_right" headers="stub_1_2 No">9</td>
+<td class="gt_row gt_right" headers="stub_1_2 Si">5</td>
+</tr>
+</tbody>
+</table>
+
 </div>
 </div>
-<p>Como podemos ver, al ser el resultado del test una correlación del 0.301295. Pese a ser relativamente moderada, se puede afirmar que las rutinas de higiene vocal tienen correlación con el VHI.</p>
-<p><strong>Respuesta a la pregunta 7:</strong></p>
-<p>Dado que la correlación es notable entre el cuidado de la voz y el mejoramiento de la misma, respondemos de forma afirmativa a esta pregunta. Para la segunda parte de la pregunta, tenemos que el método más efectivo es la unión de “Calienta, hace reposo y bebe mucha agua”.</p>
+</div>
+<p>En este caso la <span class="math inline">\(OR(\text{Tener problemas}|\text{Reposo})=5.278\)</span>, lo que nos vuelve a decir que hacer reposo después de las clases es un factor de riesgo, cosa que también nos parece contradictoria.</p>
+<p><strong>Respuesta a la pregunta 7:</strong> El resultado del test inferencial, cuadra con el gráfico anterior, ya que este da a entender que el mejor hábito para la voz es no seguir ninguna rutina. Por otra parte, las OR nos dicen que beber mucha agua o hacer reposo son factores de riesgo para la calidad de la voz. Aún así, existe la posibilidad de que, debido a la formulación de las preguntas o la ausencia de ellas, no se recopile toda la información de forma adecuada para esclarecer de manera correcta la pregunta, como por ejemplo, la razón por la que se empieza una rutina, como hemos explicado anteriormente.</p>
 </section>
 
 </main>
